@@ -80,15 +80,38 @@ public class LevelParser : MonoBehaviour
             char[] letters = currentLine.ToCharArray();
             for (int col = 0; col < letters.Length; ++col)
             {
-                if (letters[col] == 'x')
+                Vector3 pos = new Vector3(col + 0.5f, row + 0.5f, 0f);
+                GameObject newObj = null;
+                
+                switch (letters[col])
                 {
-                    Vector3 pos = new Vector3(col + 0.5f, row + 0.5f, 0f);
-                    GameObject newObj = Instantiate(testPrefab, environmentRoot);
-                    newObj.transform.position = pos;
+                    case 'x': // Test block
+                        newObj = Instantiate(testPrefab, environmentRoot);
+                        break;
+                    case 'r': // Rock block
+                        newObj = Instantiate(rockPrefab, environmentRoot);
+                        break;
+                    case 'b': // Brick block
+                        newObj = Instantiate(brickPrefab, environmentRoot);
+                        break;
+                    case '?': // Question box
+                        newObj = Instantiate(questionBoxPrefab, environmentRoot);
+                        break;
+                    case 's': // Stone block
+                        newObj = Instantiate(stonePrefab, environmentRoot);
+                        break;
+                    case ' ': // Empty space, do nothing
+                        continue;
+                    default:
+                        Debug.LogWarning($"Unrecognized character '{letters[col]}' in level file at row {row}, col {col}");
+                        continue;
                 }
                 
-                // finish the rest of the blocks that need to be added
-                
+                if (newObj != null)
+                {
+                    newObj.transform.position = pos;
+                }
+             
             }
             row++;
         }
