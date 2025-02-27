@@ -8,22 +8,28 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI pointText;
     public TextMeshProUGUI coinText;
-    private float timeLeft = 300f;
+    private bool levelFailed = false;
+    private float timeLeft = 100f;
     private int points = 0;
     private int coins = 0;
 
     private void Update()
     {
-        if (timeLeft > 0)
+        // Only update if the game is still running
+        if (!levelFailed)
         {
-            timeLeft -= Time.deltaTime;
-            // making sure no negative time
-            if (timeLeft < 0)
+            if (timeLeft > 0)
             {
-                timeLeft = 0;
+                timeLeft -= Time.deltaTime;
+                if (timeLeft <= 0)
+                {
+                    timeLeft = 0;
+                    // Call game over function
+                    LevelFailed();
+                }
             }
+            UpdateUI();
         }
-        UpdateUI();
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -64,5 +70,16 @@ public class GameManager : MonoBehaviour
     {
         points += amount;
         UpdateUI();
+    }
+    
+    private void LevelFailed()
+    {
+        levelFailed = true;
+        Debug.Log("Time's up! The player failed to clear the level.");
+    }
+    
+    public void LevelCompleted()
+    {
+        Debug.Log("Player reached the goal!");
     }
 }

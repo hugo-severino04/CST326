@@ -6,13 +6,22 @@ public class character_Movement : MonoBehaviour
     public float maxSpeed = 10f;
     public float jumpImpulse = 15f;
     public float jumpBoostForce = 5.7f;
+    
+    Animator animator;
     Rigidbody rb;
     
     [Header("Debug Stuff")]
     public bool isGrounded;
     void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+    }
+
+    void UpdateAnimation()
+    {
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        animator.SetBool("In Air", !isGrounded);
     }
 
     // Update is called once per frame
@@ -28,8 +37,6 @@ public class character_Movement : MonoBehaviour
         newVelocity.x = horizontalSpeed;
         rb.linearVelocity = newVelocity;
         
-        // should also clamp vertical 
-        
         // test if the character is on the ground 
         Collider c = GetComponent<Collider>(); 
         float castDistance = c.bounds.extents.y + 0.01f;
@@ -44,7 +51,7 @@ public class character_Movement : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space) && !isGrounded)
         {
-            if (rb.linearVelocity.y > 0) // Only apply boost while moving up
+            if (rb.linearVelocity.y > 0)
             {
                 rb.AddForce(Vector3.up * jumpBoostForce, ForceMode.Acceleration);
             }
@@ -63,6 +70,8 @@ public class character_Movement : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0f, yawRotation, 0f);
             transform.rotation = rotation;
         }
+        
+        UpdateAnimation();
         
     }
 }
