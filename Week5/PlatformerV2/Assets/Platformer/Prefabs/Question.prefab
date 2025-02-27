@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2652198492393551389}
   - component: {fileID: 2652198492393551388}
   - component: {fileID: 1445702910550628139}
+  - component: {fileID: -756997514764229884}
   m_Layer: 6
   m_Name: Question
   m_TagString: QuestionBlock
@@ -122,3 +123,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinValue: 1
+--- !u!114 &-756997514764229884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652198492393551387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1b5f4325fd149e7a7b81f95266f579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationSpeed: 0.2
